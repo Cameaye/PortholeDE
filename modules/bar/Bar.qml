@@ -50,7 +50,7 @@ Scope {
                 right: true
             }
             
-            implicitHeight: 50
+            height: 50
             
             margins {
                 top: 0
@@ -59,19 +59,24 @@ Scope {
             }
             
             // Thin border seperator line
-            Rectangle {
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    right: parent.right
-                }
-                height: 1
-                color: '#585858'
-            }
+            // Rectangle {
+            //     anchors {
+            //         top: parent.top
+            //         left: parent.left
+            //         right: parent.right
+            //     }
+            //     height: 1
+            //     color: '#585858'
+            // }
             
             // Main horizontal layout for the taskbar
             RowLayout {
-                anchors.fill: parent
+                id: mainRow
+                property var topBottomMargins: 3
+                height: parent.height
+                width: parent.width
+                anchors.topMargin: 0
+                anchors.bottomMargin: 0
                 
                 StartButton {
                     Layout.leftMargin: 5
@@ -81,23 +86,24 @@ Scope {
                 
                 Item { Layout.fillWidth: true } // spacer
                 
-                WrapperItem {
-                    id: rightWidgets
-                    rightMargin: 10
-                    
-                    RowLayout {
-                        SystemTrayButton{
-                            id: trayButton
-                        }
-                        PackageUpdaterWidget{}
-                        UtilsWidget{}
-                        BatteryIndicator{
-                            id: batteryIndicator
-                            visible: PowerManager.isLaptop
-                        }
-                        ClockWidget {}
+                RowLayout {
+                    height: parent.height - (mainRow.topBottomMargins * 2)
+                    Layout.rightMargin: 5
+                    Layout.topMargin: mainRow.topBottomMargins
+                    Layout.bottomMargin: mainRow.topBottomMargins
+
+                    SystemTrayButton{
+                        id: trayButton
                     }
+                    PackageUpdaterWidget{}
+                    UtilsWidget{}
+                    BatteryIndicator{
+                        id: batteryIndicator
+                        visible: PowerManager.isLaptop
+                    }
+                    ClockWidget {}
                 }
+                
             }
 
             Variants {

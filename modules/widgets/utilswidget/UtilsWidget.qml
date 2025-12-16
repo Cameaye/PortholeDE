@@ -10,7 +10,8 @@ Button {
     id: root
     property bool menuOpen: false
 
-    implicitHeight: 32
+    implicitWidth: 48
+    implicitHeight: parent.height
 
     contentItem: RowLayout{
         NetworkIcon{
@@ -28,9 +29,7 @@ Button {
     }
 
     background: Rectangle {
-        implicitWidth: 50
         color: root.hovered ? Themes.primaryHoverColor : "transparent"
-        border.color: root.hovered ? Themes.primaryHoverShadow : "transparent"
         radius: 6
     }
 

@@ -4,10 +4,10 @@ import QtQuick.Controls
 
 Button{
   id: updateButton
-  visible: UpdateListener.totalPackages > 0
+  // visible: UpdateListener.totalPackages > 0
 
   implicitWidth:32
-  implicitHeight:32
+  implicitHeight: parent.height
 
   background: Rectangle{
     anchors.fill: parent
@@ -17,11 +17,13 @@ Button{
   contentItem: Text{
     id: updateSwirly
     text: "\udb81\udeb0"
-    font.pixelSize: 20
+    font.pixelSize: 18
     color: Themes.textColor
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
   }
 
-  onClicked: {}
+  onClicked: {
+    console.log(UpdateListener.aur_packages)
+  }
 }

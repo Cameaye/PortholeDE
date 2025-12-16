@@ -8,15 +8,16 @@ Button {
     property bool menuOpen: false
 
     implicitWidth: 32
-    implicitHeight: 32
+    implicitHeight: parent.height
 
     contentItem: Text {
         id: arrowIcon
-        text: "⌃"
-        font.pixelSize: 28
+        text: "\uf077"
+        font.pixelSize: 16
         color: Themes.textColor
         rotation: menuOpen ? 180 : 0
         horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
         
         Behavior on rotation {
             NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
@@ -24,10 +25,7 @@ Button {
     }
 
     background: Rectangle {
-        implicitWidth: 32
-        implicitHeight: 32
         color: root.hovered ? Themes.primaryHoverColor : "transparent"
-        border.color: root.hovered ? Themes.primaryHoverShadow : "transparent"
         radius: 6
     }
 

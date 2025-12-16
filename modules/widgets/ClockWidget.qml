@@ -1,34 +1,27 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 import qs.singletons
 
 Button{
   id: clockButton
   property bool menuOpen: false
 
+  implicitHeight: parent.height
+
   background: Rectangle {
     color: clockButton.hovered ? Themes.primaryHoverColor : "transparent"
     radius: 5
   }
-  contentItem: Column {
-    Text {
-      text: Time.time
+  contentItem: Text {
+      text: Time.time + Time.date
       color: Themes.textColor
-      anchors.right: parent.right 
-
       font.family: Themes.textFont
       font.pixelSize: 14
+      horizontalAlignment: Text.AlignRight
+      verticalAlignment: Text.AlignVCenter
     }
-
-    Text {
-      text: Time.date
-      color: Themes.textColor
-      anchors.right: parent.right
-      
-      font.family: Themes.textFont
-      font.pixelSize: 14
-    }
-  }
+  
 
   onClicked: {
       if(menuOpen){
