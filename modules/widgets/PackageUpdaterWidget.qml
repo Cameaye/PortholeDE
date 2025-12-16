@@ -17,7 +17,7 @@ Button{
   contentItem: Text{
     id: updateSwirly
     text: "\udb81\udeb0"
-    font.pixelSize: 28
+    font.pixelSize: 20
     color: Themes.textColor
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
