@@ -89,6 +89,7 @@ Scope {
                         SystemTrayButton{
                             id: trayButton
                         }
+                        PackageUpdaterWidget{}
                         UtilsWidget{}
                         BatteryIndicator{
                             id: batteryIndicator
