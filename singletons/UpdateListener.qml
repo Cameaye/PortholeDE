@@ -12,7 +12,7 @@ Singleton {
 
   Process {
     id: base_packages_check
-    command: ["sh", "-c", "checkupdates 2>/dev/null | wc -l"]
+    command: ["sh", "-c", "pacman -Qu 2>/dev/null | wc -l"]
     running: true
 
     stdout: StdioCollector {
@@ -31,7 +31,7 @@ Singleton {
   }
 
   Timer {
-    interval: 1000
+    interval: 600000
     running: true
     repeat: true
     onTriggered: {
