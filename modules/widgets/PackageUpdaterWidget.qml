@@ -9,7 +9,7 @@ Button{
   implicitWidth:32
   implicitHeight:32
 
-  background: Rectangel{
+  background: Rectangle{
     anchors.fill: parent
     color: updateButton.hovered ? Themes.primaryHoverColor : "transparent"
     radius: 6
