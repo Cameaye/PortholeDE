@@ -8,6 +8,7 @@ import Quickshell.Hyprland
 import Quickshell.Wayland
 import Quickshell.Services.Notifications
 import qs.modules.widgets
+import qs.modules.widgets.packageUpdaterWidget
 import qs.modules.widgets.startwidget
 import qs.modules.widgets.utilswidget
 import qs.modules.widgets.openwindowswidget
@@ -89,6 +90,7 @@ Scope {
                         SystemTrayButton{
                             id: trayButton
                         }
+                        PackageUpdaterWidget{}
                         UtilsWidget{}
                         BatteryIndicator{
                             id: batteryIndicator
