@@ -50,7 +50,7 @@ Scope {
                 right: true
             }
             
-            height: 50
+            implicitHeight: 50
             
             margins {
                 top: 0
@@ -87,6 +87,7 @@ Scope {
                 Item { Layout.fillWidth: true } // spacer
                 
                 RowLayout {
+                    id: rightWidgets
                     height: parent.height - (mainRow.topBottomMargins * 2)
                     Layout.rightMargin: 5
                     Layout.topMargin: mainRow.topBottomMargins
