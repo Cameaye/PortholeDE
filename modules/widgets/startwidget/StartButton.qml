@@ -11,9 +11,6 @@ Button {
     property string alternateImageSource: "root:/assets/toothless.gif"
     property bool menuOpen: false
 
-    implicitWidth: 40
-    implicitHeight: 40
-
     contentItem: AnimatedImage {
         id: buttonImage
         anchors.centerIn: parent
@@ -27,7 +24,6 @@ Button {
 
     background: Rectangle {
         color: root.hovered ? Themes.primaryHoverColor : "transparent"
-        border.color: root.hovered ? Themes.primaryHoverShadow : "transparent"
         radius: 6
     }
 

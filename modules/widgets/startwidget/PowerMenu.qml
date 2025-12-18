@@ -28,8 +28,9 @@ Popup {
                 radius: 10
             }
             contentItem: Text{
-                text: "\udb81\udc25 Power off"
+                text: "\udb81\udc25 Power"
                 color: Themes.textColor
+                elide: Text.ElideRight 
             }
             onClicked: {
                 Quickshell.execDetached({
@@ -47,6 +48,7 @@ Popup {
             contentItem: Text{
                 text: "\udb81\udc59 Reboot"
                 color: Themes.textColor
+                elide: Text.ElideRight 
             }
             onClicked: {
                 Quickshell.execDetached({

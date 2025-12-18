@@ -59,15 +59,15 @@ Scope {
             }
             
             // Thin border seperator line
-            // Rectangle {
-            //     anchors {
-            //         top: parent.top
-            //         left: parent.left
-            //         right: parent.right
-            //     }
-            //     height: 1
-            //     color: '#585858'
-            // }
+            Rectangle {
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    right: parent.right
+                }
+                height: 1
+                color: '#585858'
+            }
             
             // Main horizontal layout for the taskbar
             RowLayout {
@@ -79,10 +79,20 @@ Scope {
                 anchors.bottomMargin: 0
                 
                 StartButton {
+                    implicitWidth: parent.height - (mainRow.topBottomMargins * 2)
+                    implicitHeight: parent.height - (mainRow.topBottomMargins * 2)
+                    Layout.topMargin: mainRow.topBottomMargins
+                    Layout.bottomMargin: mainRow.topBottomMargins
                     Layout.leftMargin: 5
                 }
 
-                OpenWindowsScroller{}
+                OpenWindowsScroller{
+                    Layout.fillWidth: true
+                    Layout.maximumWidth: root.width - rightWidgets.width
+                    height: parent.height - (mainRow.topBottomMargins * 2)
+                    Layout.topMargin: mainRow.topBottomMargins
+                    Layout.bottomMargin: mainRow.topBottomMargins
+                }
                 
                 Item { Layout.fillWidth: true } // spacer
                 
