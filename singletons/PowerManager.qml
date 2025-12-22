@@ -34,38 +34,41 @@ Singleton {
         }
     }
 
-    property var isCharging: updateChargeIndicator()
-
-    property var batteryIcon: "\uf244"
+    property var batteryIcon: "\udb80\udc7a"
 
     function updateIcon(){
         if(battery){
-            if(batteryPercentage > 80){
-                batteryIcon = "\uf240"
+            if(battery.timeToFull > 0){
+                batteryIcon = "\udb80\udc84"
             }
-            else if(batteryPercentage > 0.60){
-                batteryIcon = "\uf241"
+            else if(batteryPercentage >= 90){
+                batteryIcon = "\udb80\udc82"
             }
-            else if(batteryPercentage > 0.40){
-                batteryIcon = "\uf242"
+            else if(batteryPercentage >= 80){
+                batteryIcon = "\udb80\udc81"
             }
-            else if(batteryPercentage > 20){
-                batteryIcon = "\uf243"
+            else if(batteryPercentage >= 70){
+                batteryIcon = "\udb80\udc80"
+            }
+            else if(batteryPercentage >= 60){
+                batteryIcon = "\udb80\udc7f"
+            }
+            else if(batteryPercentage >= 50){
+                batteryIcon = "\udb80\udc7e"
+            }
+            else if(batteryPercentage >= 40){
+                batteryIcon = "\udb80\udc7d"
+            }
+            else if(batteryPercentage >= 30){
+                batteryIcon = "\udb80\udc7c"
+            }
+            else if(batteryPercentage >= 20){
+                batteryIcon = "\udb80\udc7b"
             }
             else{
-                batteryIcon = "\uf244"
+                batteryIcon = "\udb80\udc7a"
             }
         }
-    }
-
-    function updateChargeIndicator(){
-        if(battery){
-            if(battery.timeToFull > 0){
-                return true
-            }
-            return false
-        }
-        return false
     }
 
     Timer {
@@ -74,7 +77,6 @@ Singleton {
         repeat: true
         onTriggered: {
             updateIcon()
-            updateChargeIndicator()
         }
     }
 
