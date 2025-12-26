@@ -42,27 +42,30 @@ Singleton {
                 batteryIcon = "\udb80\udc84"
             }
             else if(batteryPercentage >= 90){
-                batteryIcon = "\udb80\udc82"
+                batteryIcon = "\udb80\udc79"
             }
             else if(batteryPercentage >= 80){
-                batteryIcon = "\udb80\udc81"
+                batteryIcon = "\udb80\udc82"
             }
             else if(batteryPercentage >= 70){
-                batteryIcon = "\udb80\udc80"
+                batteryIcon = "\udb80\udc81"
             }
             else if(batteryPercentage >= 60){
-                batteryIcon = "\udb80\udc7f"
+                batteryIcon = "\udb80\udc80"
             }
             else if(batteryPercentage >= 50){
-                batteryIcon = "\udb80\udc7e"
+                batteryIcon = "\udb80\udc7f"
             }
             else if(batteryPercentage >= 40){
-                batteryIcon = "\udb80\udc7d"
+                batteryIcon = "\udb80\udc7e"
             }
             else if(batteryPercentage >= 30){
-                batteryIcon = "\udb80\udc7c"
+                batteryIcon = "\udb80\udc7d"
             }
             else if(batteryPercentage >= 20){
+                batteryIcon = "\udb80\udc7c"
+            }
+            else if(batteryPercentage >= 10){
                 batteryIcon = "\udb80\udc7b"
             }
             else{
