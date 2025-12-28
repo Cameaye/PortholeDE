@@ -9,9 +9,10 @@ import qs.singletons
 PopupWindow {
     id: trayPopup
     property var subMenuOpen: false
+    property var minHeight: 41
 
     implicitWidth: 200
-    implicitHeight: trayIconsFlow.height
+    implicitHeight: Math.max(trayIconsFlow.height, minHeight)
     color: "transparent"
 
      anchor {

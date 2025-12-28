@@ -113,4 +113,10 @@ Item {
         }
         
     }
+
+    Component.onDestruction: {
+        grab.active = false
+        grab2.active = false
+        trayPopup.visible = false
+    }
 }
