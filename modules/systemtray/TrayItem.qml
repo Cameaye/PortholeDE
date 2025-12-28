@@ -68,6 +68,7 @@ Item {
             onCleared: {
                 trayItemPopup.visible = false
                 trayPopup.visible = false
+                grab.active = false
             }
         }
     }
