@@ -3,50 +3,73 @@ import QtQuick.Controls
 import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
+import Quickshell.Hyprland
 import qs.singletons
 
 Item {
     id: root
 
     required property SystemTrayItem modelData
-    required property var barPopup
 
     implicitWidth: 25
     implicitHeight: 25
 
-    Popup {
-        id: trayMenuPopup
-        // y: -1*(root.y + root.height + 100)
-        contentWidth: 304
-        contentHeight: idMenu.contentHeight - 8
-        modal: true
-        focus: true
-        popupType: Popup.Window
+    PopupWindow {
+        id: trayItemPopup
+        implicitWidth: 316
+        implicitHeight: idMenu.contentHeight
+        color: "transparent"
 
-        background: Rectangle {
+        anchor {
+            item: root
+            rect.x: (root.width - width) / 2
+            rect.y: -height - 20
+        }
+
+        Rectangle {
+            anchors.fill: parent
             color: Themes.primaryColor
             radius: 8
         }
 
-        contentItem: TrayItemMenu {
+        TrayItemMenu {
             id: idMenu
             rootMenu: QsMenuOpener { menu: modelData.menu }
             trayMenu: QsMenuOpener { menu: modelData.menu }
         }
 
-        onClosed: {
+        onVisibleChanged: {
             idMenu.trayMenu = idMenu.rootMenu
+            if(visible){
+                subMenuOpen = true
+                grabTimer2.start()
+            }
+            else{
+                subMenuOpen = false
+                grab.active = true
+            }
         }
 
-        // Component.onCompleted: {
-        //     if (barPopup && !barPopup.trayMenus.includes(trayMenuPopup))
-        //         barPopup.trayMenus.push(trayMenuPopup);
-        // }
+        // Add a small delay to allow wayland to finish mapping the popupwindow
+        // (Don't love this solution and will try to find a better one later)
+        Timer {
+            id: grabTimer2
+            interval: 100
+            onTriggered: {
+                grab2.active = true
+            }
+        }
 
-        // Component.onDestruction: {
-        //     if (barPopup)
-        //         barPopup.trayMenus = barPopup.trayMenus.filter(p => p !== trayMenuPopup);
-        // }
+        // Give focus to popup window to allow for keyboard inputs and clicking off detection
+        HyprlandFocusGrab {
+            id: grab2
+            windows: [ trayItemPopup ]
+
+            onCleared: {
+                trayItemPopup.visible = false
+                trayPopup.visible = false
+            }
+        }
     }
 
 
@@ -83,7 +106,7 @@ Item {
                     modelData.activate();
                 } else if (event.button === Qt.RightButton) {
                     idMenu.trayMenu.menu = root.modelData.menu
-                    trayMenuPopup.open();
+                    trayItemPopup.visible = true
                 }
             }
         }

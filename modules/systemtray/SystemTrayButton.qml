@@ -4,7 +4,7 @@ import Quickshell
 import qs.singletons
 
 Button {
-    id: root
+    id: sysTrayButton
     property bool menuOpen: false
 
     implicitWidth: 32
@@ -25,16 +25,16 @@ Button {
     }
 
     background: Rectangle {
-        color: root.hovered ? Themes.primaryHoverColor : "transparent"
+        color: sysTrayButton.hovered ? Themes.primaryHoverColor : "transparent"
         radius: 6
     }
 
     onClicked: {
         if(menuOpen){
-            trayPopup.close()
+            trayPopup.visible = false
         }
         else{
-            trayPopup.open()
+            trayPopup.visible = true
         }
         menuOpen = !menuOpen
     }
