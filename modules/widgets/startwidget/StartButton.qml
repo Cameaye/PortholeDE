@@ -7,7 +7,7 @@ import qs.singletons
 Button {
     id: root
 
-    property string imageSource: "root:/assets/arch_blue.png"
+    property string imageSource: "root:/assets/archlogo.svg"
     property string alternateImageSource: "root:/assets/toothless.gif"
     property bool menuOpen: false
 
