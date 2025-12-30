@@ -4,7 +4,7 @@ import QtQuick.Controls
 
 Button{
   id: updateButton
-  // visible: UpdateListener.totalPackages > 0
+  visible: UpdateListener.totalPackages > 0
 
   implicitWidth:32
   implicitHeight: parent.height
@@ -24,6 +24,6 @@ Button{
   }
 
   onClicked: {
-    console.log(UpdateListener.aur_packages)
+    //TODO: Once settings/app store is done this should open the update section of the app
   }
 }

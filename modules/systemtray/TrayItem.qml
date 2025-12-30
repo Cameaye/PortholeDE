@@ -23,7 +23,7 @@ Item {
         anchor {
             item: root
             rect.x: (root.width - width) / 2
-            rect.y: -height - 20
+            rect.y: -height - 10
         }
 
         Rectangle {
