@@ -66,7 +66,7 @@ Scope {
                     right: parent.right
                 }
                 height: 1
-                color: '#585858'
+                color: Themes.primaryHoverColor
             }
             
             // Main horizontal layout for the taskbar
