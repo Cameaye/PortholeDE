@@ -4,7 +4,7 @@ import Quickshell.Io
 import qs.singletons
 
 Text{
-    id: root
+    id: networkIcon
     font.family: "Symbols Nerd Font"
     font.pixelSize: 16
     color: Themes.textColor
@@ -15,13 +15,13 @@ Text{
     function updateNetworkIcon() {
         // Update icon based on network status
         if(networkStatus.includes("ethernet")){
-            root.text = "\udb80\udc02";  // ethernet icon
+            networkIcon.text = "\udb80\udc02";  // ethernet icon
         }
         else if (networkStatus.includes("wireless")) {
-            root.text = "\udb81\udda9";  // wifi icon
+            networkIcon.text = "\udb81\udda9";  // wifi icon
         } 
          else {
-            root.text = "\udb81\uddaa";  // disconnected icon
+            networkIcon.text = "\udb81\uddaa";  // disconnected icon
         }
     }
     
@@ -31,7 +31,7 @@ Text{
         running: true
         stdout: StdioCollector {
             onStreamFinished: {
-                root.networkStatus = this.text
+                networkIcon.networkStatus = this.text
                 updateNetworkIcon()
             }
         }

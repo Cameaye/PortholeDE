@@ -18,13 +18,9 @@ Button {
             id: networkIcon
             Layout.alignment: Qt.AlignHCenter
         }
-        Text {
+        VolumeIcon {
             id: volumeIcon
             Layout.alignment: Qt.AlignHCenter
-            text: AudioManager.volumeIcon
-            font.family: "Symbols Nerd Font"
-            font.pixelSize: 16
-            color: Themes.textColor
         }
         BatteryIndicator{
             id: batteryIndicator
