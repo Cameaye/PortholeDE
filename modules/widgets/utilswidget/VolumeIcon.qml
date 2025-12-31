@@ -6,10 +6,10 @@ import qs.singletons
 
 Item{
     id: volumeIcon
-    implicitHeight: test.height
-    implicitWidth: test.width
+    implicitHeight: volumeIconText.height
+    implicitWidth: volumeIconText.width
     Text {
-        id: test
+        id: volumeIconText
         text: AudioManager.volumeIcon
         font.family: "Symbols Nerd Font"
         font.pixelSize: 16
