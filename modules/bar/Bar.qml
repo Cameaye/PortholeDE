@@ -108,10 +108,6 @@ Scope {
                     }
                     PackageUpdaterWidget{}
                     UtilsWidget{}
-                    BatteryIndicator{
-                        id: batteryIndicator
-                        visible: PowerManager.isLaptop
-                    }
                     ClockWidget {}
                 }
                 

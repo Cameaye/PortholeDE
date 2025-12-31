@@ -10,10 +10,10 @@ Button {
     id: root
     property bool menuOpen: false
 
-    implicitWidth: 48
     implicitHeight: parent.height
 
     contentItem: RowLayout{
+        spacing: 8
         NetworkIcon{
             id: networkIcon
             Layout.alignment: Qt.AlignHCenter
@@ -25,6 +25,10 @@ Button {
             font.family: "Symbols Nerd Font"
             font.pixelSize: 16
             color: Themes.textColor
+        }
+        BatteryIndicator{
+            id: batteryIndicator
+            visible: PowerManager.isLaptop
         }
     }
 
