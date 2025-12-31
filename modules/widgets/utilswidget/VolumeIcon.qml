@@ -29,6 +29,6 @@ Item{
         rect.x: (volumeIcon.width - width) / 2
         rect.y: -height - 20
     }
-    messageText: AudioManager.sink.description + ": " + AudioManager.volumePercentage
+    messageText: (AudioManager.sink?.description ?? "No audio") + ": " + AudioManager.volumePercentage
   }
 }
