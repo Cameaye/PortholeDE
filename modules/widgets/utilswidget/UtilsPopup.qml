@@ -20,8 +20,6 @@ LazyLoader{
             id: trayBackground
             anchors.fill: parent
             color: Themes.popupBackgroundColor
-            border.color: Themes.primaryHoverShadow
-            border.width: 1
             radius: 10
 
             StackView {

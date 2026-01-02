@@ -34,12 +34,6 @@ Item {
             NightLightButton{}
         }
 
-        Rectangle {
-            Layout.fillWidth: true
-            height: 1
-            color: '#585858'
-        }
-
         ColumnLayout{
             Layout.alignment: Qt.AlignHCenter
             Layout.preferredHeight: rootMenu.height * 0.30
