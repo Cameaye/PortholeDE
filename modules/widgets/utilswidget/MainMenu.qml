@@ -34,8 +34,10 @@ Item {
             NightLightButton{}
         }
 
+        // Audio Control
         ColumnLayout{
-            Layout.alignment: Qt.AlignHCenter
+            Layout.alignment: Qt.AlignLeft
+            Layout.leftMargin: 10
             Layout.preferredHeight: rootMenu.height * 0.30
             RowLayout{
                 spacing: 20
@@ -128,6 +130,97 @@ Item {
                 // Bluetooth Button
                 AudioMenuButton{
                     stack: rootStack
+                }
+            }
+        }
+
+        // Brightness Control
+        ColumnLayout{
+            Layout.alignment: Qt.AlignLeft
+            Layout.leftMargin: 10
+            Layout.preferredHeight: rootMenu.height * 0.30
+            RowLayout{
+                spacing: 20
+                Button {
+                    background: Rectangle {
+                        implicitHeight: 32
+                        implicitWidth: 32
+                        color: "transparent"
+                        radius: 5
+                    }
+                    contentItem: Text {
+                        text: "\uf522"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.pixelSize: 16
+                        color: Themes.textColor
+                    }
+                }
+                Slider {
+                    id: brightControl
+                    from: 0
+                    value: BrightnessManager.brightness
+                    to: 1
+                    stepSize: 0.01
+
+                    background: Rectangle {
+                        x: brightControl.leftPadding
+                        y: brightControl.topPadding + brightControl.availableHeight / 2 - height / 2
+                        implicitWidth: 200
+                        implicitHeight: 4
+                        width: brightControl.availableWidth
+                        height: implicitHeight
+                        radius: 2
+                        color: "#bdbebf"
+
+                        Rectangle {
+                            width: brightControl.visualPosition * parent.width
+                            height: parent.height
+                            color: Themes.accentColor
+                            radius: 2
+                        }
+                    }
+
+                    handle: Rectangle {
+                        x: brightControl.leftPadding + brightControl.visualPosition * (brightControl.availableWidth - width)
+                        y: brightControl.topPadding + brightControl.availableHeight / 2 - height / 2
+                        implicitWidth: 20
+                        implicitHeight: 20
+                        radius: 13
+                        color: brightControl.pressed ? "#f0f0f0" : "#f6f6f6"
+                        border.color: "#bdbebf"
+
+                        Popup {
+                            popupType: Popup.Item
+                            y: -height - 10
+                            x: (parent.width - width) / 2
+                            visible: hoverHandler2.hovered || brightControl.pressed
+                            closePolicy: Popup.NoAutoClose
+
+                            background: Rectangle {
+                                implicitWidth: 40
+                                implicitHeight: 20
+                                color: Themes.primaryColor
+                                radius: 5
+                            }
+
+                            contentItem: Text {
+                                horizontalAlignment: Text.AlignHCenter
+                                text: Math.round(BrightnessManager.brightness * 100)
+                                color: Themes.textColor
+                            }
+                        }
+
+                        HoverHandler {
+                            id: hoverHandler2
+                        }
+                    }
+
+                    onMoved: {
+                        Quickshell.execDetached({
+                            command: ["hyprctl", "hyprsunset", "gamma", (brightControl.value * 100)]
+                        });
+                    }
                 }
             }
         }
