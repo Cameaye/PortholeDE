@@ -158,7 +158,7 @@ Item {
                 }
                 Slider {
                     id: brightControl
-                    from: 0
+                    from: .1
                     value: BrightnessManager.brightness
                     to: 1
                     stepSize: 0.01
@@ -189,31 +189,6 @@ Item {
                         radius: 13
                         color: brightControl.pressed ? "#f0f0f0" : "#f6f6f6"
                         border.color: "#bdbebf"
-
-                        Popup {
-                            popupType: Popup.Item
-                            y: -height - 10
-                            x: (parent.width - width) / 2
-                            visible: hoverHandler2.hovered || brightControl.pressed
-                            closePolicy: Popup.NoAutoClose
-
-                            background: Rectangle {
-                                implicitWidth: 40
-                                implicitHeight: 20
-                                color: Themes.primaryColor
-                                radius: 5
-                            }
-
-                            contentItem: Text {
-                                horizontalAlignment: Text.AlignHCenter
-                                text: Math.round(BrightnessManager.brightness * 100)
-                                color: Themes.textColor
-                            }
-                        }
-
-                        HoverHandler {
-                            id: hoverHandler2
-                        }
                     }
 
                     onMoved: {
