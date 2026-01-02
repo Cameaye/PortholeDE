@@ -145,6 +145,54 @@ Item {
             color: Themes.primaryColor
             bottomLeftRadius: 10
             bottomRightRadius: 10
+
+            RowLayout{
+                anchors.fill: parent
+                spacing: 8
+                Text {
+                    visible: PowerManager.isLaptop
+                    Layout.leftMargin: 10
+                    Layout.bottomMargin: 4 // Needed to adjust so icon is centered with text, weird icon issue
+                    Layout.alignment: Qt.AlignVCenter
+                    color: Themes.textColor
+                    text: PowerManager.batteryIcon
+                    font.pixelSize: 24
+                }
+                Text {
+                    visible: PowerManager.isLaptop
+                    Layout.alignment: Qt.AlignVCenter
+                    color: Themes.textColor
+                    text: PowerManager.batteryPercentage + "%"
+                    font.pixelSize: 12
+                }
+
+                // Spacer
+                Item{
+                    Layout.fillWidth: true
+                }
+
+                Button {
+                    id: openSettings
+                    Layout.rightMargin: 10
+                    background: Rectangle {
+                        implicitHeight: 32
+                        implicitWidth: 32
+                        color: openSettings.hovered ? Themes.primaryHoverColor : "transparent"
+                        radius: 5
+                    }
+                    contentItem: Text {
+                        text: "\ueb51"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.pixelSize: 16
+                        color: Themes.textColor
+                    }
+
+                    onClicked: {
+                        //TODO: Launch settings app once done
+                    }
+                }
+            }
         }
 
     }
