@@ -149,7 +149,7 @@ Item {
                         radius: 5
                     }
                     contentItem: Text {
-                        text: "\uf522"
+                        text: "\udb81\udda8"
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         font.pixelSize: 16
