@@ -18,7 +18,8 @@ ListView {
         property var windowInfo: WindowManager.openWindows[modelData]
     }
 
-    // WindowPopupView {
-    //     id: windowPopup
-    // }
+    WindowPopupView {
+        id: windowPopup
+        anchor.item: windowScroller
+    }
 }

@@ -25,12 +25,12 @@ Button {
     }
 
     onHoveredChanged: {
-        // if(button.hovered){
-        //     windowPopup.showWindow(button)
-        // }
-        // else{
-        //     windowPopup.hideWindow()
-        // }
+        if(button.hovered){
+            windowPopup.show(button)
+        }
+        else{
+            windowPopup.hide()
+        }
     }
 
     onClicked: {

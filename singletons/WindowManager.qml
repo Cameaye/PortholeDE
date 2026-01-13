@@ -57,10 +57,7 @@ Singleton {
             if(!openWindows[appId]){
                 openWindows[appId] = {
                     id: String(appId), // The wayland app id of the window
-                    title: String(w.title),
-                    minimized: Boolean((w.workspace.id == -99)),
                     addresses: new Set(),
-                    // application: application, // The application associated with this window if any
                     iconPath: String(iconPath) // The icon path for the window
                 }
 
