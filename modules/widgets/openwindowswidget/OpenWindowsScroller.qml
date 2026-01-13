@@ -10,19 +10,15 @@ import qs.singletons
 ListView {
     id: windowScroller
     orientation: ListView.Horizontal
-    model: WindowManager.openWindows
+
+    model: WindowManager.windowKeys
     boundsBehavior: Flickable.StopAtBounds
     delegate: WindowButton {
-        property var modelData: [{
-            "id": id,
-            "title": title,
-            "minimized": minimized,
-            "addresses": addresses,
-            "iconPath": iconPath
-        }]
+        required property string modelData
+        property var windowInfo: WindowManager.openWindows[modelData]
     }
 
-    WindowPopupView {
-        id: windowPopup
-    }
+    // WindowPopupView {
+    //     id: windowPopup
+    // }
 }

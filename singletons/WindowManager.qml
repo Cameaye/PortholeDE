@@ -3,18 +3,20 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Hyprland
+import Quickshell.Wayland
 
 Singleton {
     id: root
 
-    property ListModel openWindows: ListModel {}
+    property var openWindows: ({})
+    property var windowKeys: []
     
     Component.onCompleted: {
-        updateTimer.restart()
+        updateOpenWindows()
     }
 
     Connections {
-        target: Hyprland.toplevels
+        target: ToplevelManager.toplevels
         function onValuesChanged() {
             updateTimer.restart()
         }
@@ -22,20 +24,25 @@ Singleton {
 
     Timer {
         id: updateTimer
-        interval: 1000
+        interval: 100
         onTriggered: {
             updateOpenWindows()
         }
     }
 
-    // Create custom window dict to return(We use function to keep binding to Hyprland toplevel values)
-    function updateOpenWindows(){
-        openWindows.clear()
-        var groupedWindows = {}
+    // Updates the global dictionary with information about the open Hyprland windows and their associated applications
+    function updateOpenWindows(){  
+        var currentAppIds = new Set()
+
+        // Refresh addresses
+        Object.keys(openWindows).forEach(appId => {
+            openWindows[appId].addresses = new Set()
+        })
 
         Hyprland.toplevels.values.filter(w => w.wayland).forEach(w => {
             var appId = w.wayland.appId
             var application = DesktopEntries.heuristicLookup(appId)
+            currentAppIds.add(appId)
 
             // Check if we found something with the heuristic look up and if not check if its  chrome webapp
             if(!application){
@@ -47,25 +54,31 @@ Singleton {
             // We attempt to get the icon path here as not all appIds corrospond to applicaitons, so we want to make sure some icon is displayed
             var iconPath = getIcon(appId, application)
 
-            if(!groupedWindows[appId]){
-                groupedWindows[appId] = {
+            if(!openWindows[appId]){
+                openWindows[appId] = {
                     id: String(appId), // The wayland app id of the window
                     title: String(w.title),
                     minimized: Boolean((w.workspace.id == -99)),
-                    addresses: {addresses: [w.address]},
+                    addresses: new Set(),
                     // application: application, // The application associated with this window if any
                     iconPath: String(iconPath) // The icon path for the window
                 }
-                
+
+                openWindows[appId].addresses.add(w.address)
             }
             else {
-                groupedWindows.addresses.addresses.push(w.address)
+                openWindows[appId].addresses.add(w.address)
             }
         })
 
-        Object.values(groupedWindows).forEach(win => {
-            openWindows.append(win)  // Arrays get converted here, but we're done modifying
+        // Remove appIds that are no longer in toplevels
+        Object.keys(openWindows).forEach(appId => {
+            if(!currentAppIds.has(appId)) {
+                delete openWindows[appId]
+            }
         })
+
+        windowKeys = Object.keys(openWindows)
     }
 
     function getIcon(appId, application) {

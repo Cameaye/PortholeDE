@@ -3,7 +3,6 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
 import Quickshell.Hyprland
-import Quickshell.Wayland
 import qs.singletons
 
 Button {
@@ -14,7 +13,7 @@ Button {
     implicitHeight: windowScroller.height
 
     contentItem: Image{
-        source: modelData[0].iconPath
+        source: windowInfo.iconPath
         sourceSize.width: button.width
         sourceSize.height: button.height
         fillMode: Image.PreserveAspectFit
@@ -26,17 +25,18 @@ Button {
     }
 
     onHoveredChanged: {
-        if(button.hovered){
-            windowPopup.showWindow(button)
-        }
-        else{
-            windowPopup.hideWindow()
-        }
+        // if(button.hovered){
+        //     windowPopup.showWindow(button)
+        // }
+        // else{
+        //     windowPopup.hideWindow()
+        // }
     }
 
     onClicked: {
         var workspaceId = Hyprland.focusedWorkspace.id
-        Hyprland.dispatch("movetoworkspacesilent " + workspaceId + ", address:0x" + model.addresses.addresses[0]);
-        Hyprland.toplevels.values.find(w => w.address === model.addresses.addresses[0]).wayland.activate()
+        var address = windowInfo.addresses.values().next().value
+        Hyprland.dispatch("movetoworkspacesilent " + workspaceId + ", address:0x" + address);
+        Hyprland.toplevels.values.find(w => w.address === address).wayland.activate()
     }
 }
