@@ -8,7 +8,6 @@ import Quickshell.Hyprland
 import qs.singletons
 
 PopupWindow {
-    anchor.item: button
     anchor.rect.y: -height - 20
     implicitHeight: backgroundRec.height
     implicitWidth: backgroundRec.width
@@ -21,7 +20,7 @@ PopupWindow {
 
     // Whether to open the window or not
     property bool shouldShow: {
-        const hoverConditions = (button.hovered || closeButtonHovered || singleWindowHovered)
+        const hoverConditions = (closeButtonHovered || singleWindowHovered)
         return hoverConditions
     }
 
@@ -95,7 +94,7 @@ PopupWindow {
                                 }
                                 Layout.alignment: Qt.AlignRight
                                 onClicked:{
-                                    modelData.window.wayland.close()
+                                    // modelData.window.wayland.close()
                                 }
 
                                 // Need this to make sure the window stays open even if we hover the child button
@@ -121,26 +120,26 @@ PopupWindow {
                         z: -1
                         
                         onClicked: {
-                            if(modelData.minimized){
-                                 var workspaceId = Hyprland.focusedWorkspace.id
+                            // if(modelData.minimized){
+                            //      var workspaceId = Hyprland.focusedWorkspace.id
 
-                                // We fullscreen temporarily here to fix a weird bug with hyprland where swapping workspaces while another window is fullscreend cause the sub window to turn invisible
-                                // Recreate -> open two windows in the same workspace, fullscreen one to hide the other then change the workspace of the hidden window and it will turn invisible. 
-                                // Toggling fullscreen forces a redraw because hyprland doesnt have a redraw command exposed.
-                                // (May be fixed in future hyprland releases will check back on this)
-                                modelData.window.wayland.fullscreen = true
-                                modelData.window.wayland.fullscreen = false
-                                //*****************************************************************************/
+                            //     // We fullscreen temporarily here to fix a weird bug with hyprland where swapping workspaces while another window is fullscreend cause the sub window to turn invisible
+                            //     // Recreate -> open two windows in the same workspace, fullscreen one to hide the other then change the workspace of the hidden window and it will turn invisible. 
+                            //     // Toggling fullscreen forces a redraw because hyprland doesnt have a redraw command exposed.
+                            //     // (May be fixed in future hyprland releases will check back on this)
+                            //     modelData.window.wayland.fullscreen = true
+                            //     modelData.window.wayland.fullscreen = false
+                            //     //*****************************************************************************/
 
-                                Hyprland.dispatch("movetoworkspacesilent " + workspaceId + ", address:0x" + modelData.window.address);
-                                modelData.minimized = false
-                                modelData.window.wayland.activate()
-                            }
-                            else{
-                                // Wont move mouse cursor and focus if window is already focused by hyprland
-                                modelData.window.wayland.activate()
-                                singleWindowHovered = false
-                            }
+                            //     Hyprland.dispatch("movetoworkspacesilent " + workspaceId + ", address:0x" + modelData.window.address);
+                            //     modelData.minimized = false
+                            //     modelData.window.wayland.activate()
+                            // }
+                            // else{
+                            //     // Wont move mouse cursor and focus if window is already focused by hyprland
+                            //     modelData.window.wayland.activate()
+                            //     singleWindowHovered = false
+                            // }
                         }
 
                         onContainsMouseChanged: {

@@ -8,14 +8,13 @@ import qs.singletons
 
 Button {
     id: button
-    required property var windows
     property var minimized: false
 
     implicitWidth: windowScroller.height
     implicitHeight: windowScroller.height
 
     contentItem: Image{
-        source: windows[0].iconPath
+        source: modelData[0].iconPath
         sourceSize.width: button.width
         sourceSize.height: button.height
         fillMode: Image.PreserveAspectFit
@@ -26,7 +25,18 @@ Button {
         radius: 6
     }
 
-    WindowPopupView{
-        id: popup
+    onHoveredChanged: {
+        if(button.hovered){
+            windowPopup.showWindow(button)
+        }
+        else{
+            windowPopup.hideWindow()
+        }
+    }
+
+    onClicked: {
+        var workspaceId = Hyprland.focusedWorkspace.id
+        Hyprland.dispatch("movetoworkspacesilent " + workspaceId + ", address:0x" + model.addresses.addresses[0]);
+        Hyprland.toplevels.values.find(w => w.address === model.addresses.addresses[0]).wayland.activate()
     }
 }
