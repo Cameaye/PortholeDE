@@ -58,8 +58,6 @@ PopupWindow {
         // Row layout to hold all the windows associated with the application
         RowLayout{
             id: previewRowLayout
-            anchors.centerIn: parent
-            anchors.fill: parent
             spacing: 10
 
             // Display all open windows in the popup
