@@ -20,6 +20,7 @@ PopupWindow {
         anchor.item = anchorItem
         buttonHovered = true
         addresses = windowAddresses
+
         updateVisibility()
     }
 
@@ -50,8 +51,8 @@ PopupWindow {
     // Popup window background
     Rectangle{
         id: backgroundRec
-        implicitHeight: previewRowLayout.implicitHeight
-        implicitWidth: previewRowLayout.implicitWidth 
+        implicitHeight: previewRowLayout.height
+        implicitWidth: previewRowLayout.width
         color: Themes.primaryColor
         radius: 12
 
@@ -72,12 +73,12 @@ PopupWindow {
                     implicitWidth: columnLayout.implicitWidth + padding
                     implicitHeight: columnLayout.implicitHeight + padding
                     radius: 12
-                    color: isHovered ? Themes.primaryHoverColor : Themes.primaryColor
+                    color: (isHovered || closeWindowButton.hovered) ? Themes.primaryHoverColor : Themes.primaryColor
 
                     ColumnLayout{
                         id: columnLayout
                         anchors.centerIn: parent
-                        implicitWidth: screenCopyLoader.item ? screenCopyLoader.item.width : 100
+                        implicitWidth: screenCopyLoader.item ? screenCopyLoader.item.width : 10
 
                         RowLayout{
                             Text{
@@ -87,6 +88,7 @@ PopupWindow {
                                 elide: Text.ElideRight 
                                 clip: true
                                 Layout.fillWidth: true
+                                Layout.maximumWidth: screenCopyLoader.item ? screenCopyLoader.item.width - closeWindowButton.width : 10
                             }
                             Button{
                                 id: closeWindowButton
@@ -99,7 +101,7 @@ PopupWindow {
                                 contentItem: Text{
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
-                                    text: "X"
+                                    text: "\udb80\udd5a"
                                     color: Themes.textColor
                                 }
                                 Layout.alignment: Qt.AlignRight
