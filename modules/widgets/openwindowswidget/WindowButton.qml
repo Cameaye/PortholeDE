@@ -26,17 +26,31 @@ Button {
 
     onHoveredChanged: {
         if(button.hovered){
-            windowPopup.show(button)
+            showTimer.restart()
         }
         else{
+            hideTimer.restart()
+        }
+    }
+
+    Timer {
+        id: showTimer
+        interval: 200
+        onTriggered: {
+            hideTimer.stop()
+            windowPopup.show(button, windowInfo.addresses)
+        }
+    }
+
+    Timer {
+        id: hideTimer
+        interval: 10
+        onTriggered: {
+            showTimer.stop()
             windowPopup.hide()
         }
     }
 
     onClicked: {
-        var workspaceId = Hyprland.focusedWorkspace.id
-        var address = windowInfo.addresses.values().next().value
-        Hyprland.dispatch("movetoworkspacesilent " + workspaceId + ", address:0x" + address);
-        Hyprland.toplevels.values.find(w => w.address === address).wayland.activate()
     }
 }

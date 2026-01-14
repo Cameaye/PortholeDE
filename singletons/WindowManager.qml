@@ -36,7 +36,7 @@ Singleton {
 
         // Refresh addresses
         Object.keys(openWindows).forEach(appId => {
-            openWindows[appId].addresses = new Set()
+            openWindows[appId].addresses = []
         })
 
         Hyprland.toplevels.values.filter(w => w.wayland).forEach(w => {
@@ -57,14 +57,14 @@ Singleton {
             if(!openWindows[appId]){
                 openWindows[appId] = {
                     id: String(appId), // The wayland app id of the window
-                    addresses: new Set(),
+                    addresses: [],
                     iconPath: String(iconPath) // The icon path for the window
                 }
 
-                openWindows[appId].addresses.add(w.address)
+                openWindows[appId].addresses.push(w.address)
             }
             else {
-                openWindows[appId].addresses.add(w.address)
+                openWindows[appId].addresses.push(w.address)
             }
         })
 
