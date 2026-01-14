@@ -106,7 +106,7 @@ Scope {
                     SystemTrayButton{
                         id: trayButton
                     }
-                    PackageUpdaterWidget{}
+                    UpdateIndicator{}
                     UtilsWidget{}
                     ClockWidget {}
                 }

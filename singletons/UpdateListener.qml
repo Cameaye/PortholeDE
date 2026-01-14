@@ -8,7 +8,6 @@ Singleton {
   id: root
   property int base_packages
   property int aur_packages
-  property int totalPackages
 
   Process {
     id: base_packages_check
@@ -16,7 +15,9 @@ Singleton {
     running: true
 
     stdout: StdioCollector {
-      onStreamFinished: root.base_packages = parseInt(this.text)
+      onStreamFinished: {
+        root.base_packages = parseInt(this.text)
+      }
     }
   }
 
@@ -26,7 +27,9 @@ Singleton {
     running: true
 
     stdout: StdioCollector {
-      onStreamFinished: root.aur_packages = parseInt(this.text)
+      onStreamFinished: {
+        root.aur_packages = parseInt(this.text)
+      }
     }
   }
 
@@ -37,7 +40,11 @@ Singleton {
     onTriggered: {
       base_packages_check.running = true
       aur_packages_check.running = true
-      totalPackages = root.base_packages + root.aur_packages
     }
+  }
+
+  Component.onCompleted: {
+    base_packages_check.running = true
+    aur_packages_check.running = true
   }
 }
