@@ -8,33 +8,42 @@ import Quickshell.Hyprland
 import qs.singletons
 
 PopupWindow {
-    anchor.item: button
+    id: mainPopup
+    property var buttonHovered: false
+    property var addresses: []
     anchor.rect.y: -height - 20
     implicitHeight: backgroundRec.height
     implicitWidth: backgroundRec.width
     color: "transparent"
 
-    // These propertys handle hovering different elements in our popup window
-    //(NOTE: Probably a better way to do this but it's 1am and works so. Will come back to and refactor later.)
-    property bool closeButtonHovered: false
-    property bool singleWindowHovered: false
-
-    // Whether to open the window or not
-    property bool shouldShow: {
-        const hoverConditions = (button.hovered || closeButtonHovered || singleWindowHovered)
-        return hoverConditions
+    function show(anchorItem, windowAddresses) {
+        anchor.item = anchorItem
+        buttonHovered = true
+        addresses = windowAddresses
+        updateVisibility()
     }
 
-    onShouldShowChanged: {
-        updateTimer.restart()
+    function hide() {
+        buttonHovered = false
+        updateVisibility()
     }
 
-    // Timer to control updating the popup visibility after changing should show(Can change the time interval according to needs)
+    function updateVisibility() {
+        if(buttonHovered || baseHover.hovered)
+        {
+            hideTimer.stop()
+            visible = true
+        }
+        else {
+            hideTimer.restart()
+        }
+    }
+
     Timer {
-        id: updateTimer
+        id: hideTimer
         interval: 100
         onTriggered: {
-            popup.visible = popup.shouldShow
+            visible = false
         }
     }
     
@@ -49,15 +58,15 @@ PopupWindow {
         // Row layout to hold all the windows associated with the application
         RowLayout{
             id: previewRowLayout
-            anchors.centerIn: parent
             spacing: 10
 
             // Display all open windows in the popup
              Repeater {
-                model: windows
+                model: addresses
                 delegate: Rectangle{
                     id: delegateRoot
                     required property var modelData
+                    property var window: Hyprland.toplevels.values.find(w => w.address == modelData)
                     property var padding: 15
                     property var isHovered: false
                     implicitWidth: columnLayout.implicitWidth + padding
@@ -68,11 +77,11 @@ PopupWindow {
                     ColumnLayout{
                         id: columnLayout
                         anchors.centerIn: parent
-                        implicitWidth: screenCopyView.width
+                        implicitWidth: screenCopyLoader.item ? screenCopyLoader.item.width : 100
 
                         RowLayout{
                             Text{
-                                text: modelData.window.title
+                                text: window ? window.title : ""
                                 color: Themes.textColor
                                 font.pixelSize: 12
                                 elide: Text.ElideRight 
@@ -95,23 +104,25 @@ PopupWindow {
                                 }
                                 Layout.alignment: Qt.AlignRight
                                 onClicked:{
-                                    modelData.window.wayland.close()
-                                }
-
-                                // Need this to make sure the window stays open even if we hover the child button
-                                onHoveredChanged: {
-                                    if(closeWindowButton.hovered){
-                                        closeButtonHovered = true
-                                    }
-                                    else{
-                                        closeButtonHovered = false
+                                    if(window){
+                                        if(addresses.length <= 1){
+                                            mainPopup.visible = false
+                                            window.wayland.close()
+                                        }
+                                        else{
+                                            window.wayland.close()
+                                            addresses = addresses.filter(add => add !== window.address)
+                                        }
                                     }
                                 }
                             }
                         }
-                        WindowPreview {
-                            id: screenCopyView
-                            waylandWindow: modelData.window.wayland
+                        Loader {
+                            id: screenCopyLoader
+                            active: (window !== undefined) && window.wayland
+                            sourceComponent: WindowPreview {
+                                waylandWindow: window.wayland
+                            }
                         }
                     }
                     MouseArea {
@@ -121,39 +132,43 @@ PopupWindow {
                         z: -1
                         
                         onClicked: {
-                            if(modelData.minimized){
+                            if(window.workspace.id == -99){
                                  var workspaceId = Hyprland.focusedWorkspace.id
 
                                 // We fullscreen temporarily here to fix a weird bug with hyprland where swapping workspaces while another window is fullscreend cause the sub window to turn invisible
                                 // Recreate -> open two windows in the same workspace, fullscreen one to hide the other then change the workspace of the hidden window and it will turn invisible. 
                                 // Toggling fullscreen forces a redraw because hyprland doesnt have a redraw command exposed.
                                 // (May be fixed in future hyprland releases will check back on this)
-                                modelData.window.wayland.fullscreen = true
-                                modelData.window.wayland.fullscreen = false
+                                window.wayland.fullscreen = true
+                                window.wayland.fullscreen = false
                                 //*****************************************************************************/
 
-                                Hyprland.dispatch("movetoworkspacesilent " + workspaceId + ", address:0x" + modelData.window.address);
-                                modelData.minimized = false
-                                modelData.window.wayland.activate()
+                                Hyprland.dispatch("movetoworkspacesilent " + workspaceId + ", address:0x" + window.address);
+                                window.wayland.activate()
                             }
                             else{
                                 // Wont move mouse cursor and focus if window is already focused by hyprland
-                                modelData.window.wayland.activate()
-                                singleWindowHovered = false
+                                window.wayland.activate()
                             }
                         }
 
                         onContainsMouseChanged: {
                             if(singleWindowArea.containsMouse){
-                                singleWindowHovered = true
                                 isHovered = true
                             }
                             else{
-                                singleWindowHovered = false
                                 isHovered = false
                             }
                         }
                     }
+                }
+            }
+
+            HoverHandler {
+                id: baseHover
+
+                onHoveredChanged: {
+                    updateVisibility()
                 }
             }
         }

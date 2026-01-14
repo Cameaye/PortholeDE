@@ -7,22 +7,19 @@ import Quickshell.Hyprland
 import Quickshell.Wayland
 import qs.singletons
 
-//TODO: Figure out how to use scroll wheel for horizontal scrolling
-ScrollView {
+ListView {
     id: windowScroller
+    orientation: ListView.Horizontal
 
-    // ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-    ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+    model: WindowManager.windowKeys
+    boundsBehavior: Flickable.StopAtBounds
+    delegate: WindowButton {
+        required property string modelData
+        property var windowInfo: WindowManager.openWindows[modelData]
+    }
 
-    ScrollBar.horizontal.interactive: true
-    RowLayout {
-        Repeater {
-            model: ApplicationsManager.openWindows
-            delegate: WindowButton{
-                required property var modelData
-                windows: modelData
-                Layout.fillWidth: true
-            }
-        }
+    WindowPopupView {
+        id: windowPopup
+        anchor.item: windowScroller
     }
 }

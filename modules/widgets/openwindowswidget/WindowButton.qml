@@ -3,19 +3,17 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
 import Quickshell.Hyprland
-import Quickshell.Wayland
 import qs.singletons
 
 Button {
     id: button
-    required property var windows
     property var minimized: false
 
     implicitWidth: windowScroller.height
     implicitHeight: windowScroller.height
 
     contentItem: Image{
-        source: windows[0].iconPath
+        source: windowInfo.iconPath
         sourceSize.width: button.width
         sourceSize.height: button.height
         fillMode: Image.PreserveAspectFit
@@ -26,7 +24,33 @@ Button {
         radius: 6
     }
 
-    WindowPopupView{
-        id: popup
+    onHoveredChanged: {
+        if(button.hovered){
+            showTimer.restart()
+        }
+        else{
+            hideTimer.restart()
+        }
+    }
+
+    Timer {
+        id: showTimer
+        interval: 200
+        onTriggered: {
+            hideTimer.stop()
+            windowPopup.show(button, windowInfo.addresses)
+        }
+    }
+
+    Timer {
+        id: hideTimer
+        interval: 10
+        onTriggered: {
+            showTimer.stop()
+            windowPopup.hide()
+        }
+    }
+
+    onClicked: {
     }
 }
